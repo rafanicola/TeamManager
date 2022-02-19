@@ -1,0 +1,158 @@
+.navbar-container{
+    background-color: #1C2938;
+    
+}
+
+body{
+    /*font-family: 'Holtwood One SC', serif;*/
+}
+
+.master-container{
+    position: relative;
+    top: 50%;
+    transform: translateY(70%);
+}
+
+.login-container{
+    height: 100%;
+    width: 50%;
+    text-align: center;
+    /*Centering the div height*/
+    
+}
+
+.login-container input, label{
+    padding: 0 5px 0 5px;
+}
+
+#btnEntrar{
+    margin-top: 10px;
+}
+
+
+/*Conteúdo*/
+.page-start{
+    padding: 10px 0 10px 0;
+}
+
+.table-records{
+    padding-top: 40px;
+}
+
+.table-records, table{
+    width: 100%;
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+thead{
+    text-align: center;
+}
+
+.table-item{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.team-input-modal input{
+    margin: 7px 0;
+    width: 60%;
+}
+
+/*Footer*/ 
+footer{
+    height: 10%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 0%;
+    margin-bottom: 0px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    background-color: #1C2938;
+}
+
+/*Input validation*/
+.isInvalid{
+    border: 2px dashed tomato;
+}
+
+/*Equipes*/
+table{
+    border: 1px solid;
+}
+tr, th, td{
+    border: 1px solid;
+}
+
+.footer-container{
+    padding-top: 15px;
+}
+
+.center{
+    text-align: center;
+}
+
+/*Login page //////////////////////////////////////////////////*/
+.main-head{
+    height: 150px;
+    background: #FFF;
+}
+
+.sidenav {
+    height: 100%;
+    background-color: #000;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+.main {
+    padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+}
+@media screen and (max-width: 450px) {
+    .login-form{
+        margin-top: 10%;
+    }
+
+    .register-form{
+        margin-top: 10%;
+    }
+}
+@media screen and (min-width: 768px){
+    .main{
+        margin-left: 40%; 
+    }
+
+    .sidenav{
+        width: 40%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+    }
+
+    .login-form{
+        margin-top: 80%;
+    }
+
+    .register-form{
+        margin-top: 20%;
+    }
+}
+.login-main-text{
+    margin-top: 20%;
+    padding: 60px;
+    color: #fff;
+}
+.login-main-text h2{
+    font-weight: 300;
+}
+.btn-black{
+    background-color: #000 !important;
+    color: #fff;
+}

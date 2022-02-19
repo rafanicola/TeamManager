@@ -1,0 +1,128 @@
+<%- include("partials/header") %> 
+
+
+<div class="container-fluid">
+    <div class="container">
+        <div class="page-start">
+
+            <h1>Atletas</h1>
+            <!-- <form action="/equipes" method="post">
+                <div class="filter-div">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="Id">ID da Equipe</label><br>
+                            <input type="text">
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="Name">Nome da equipe</label><br>
+                            <input type="text" id="ftrTeamName">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <br>
+                            <input type="submit" value="Filtrar">
+                        </div>
+                    </div>
+                </div>
+                
+            </form> -->
+        </div>
+
+        <div class="actions">
+            <!--Modal Adicionar Atleta button-->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adicionarAtleta" id="addTeam">Adicionar Atleta</button>
+        </div>
+
+        <!--Modal Adicionar Equipe-->
+        <div class="modal fade" id="adicionarAtleta" name="adicionarAtleta" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modalTitle">Adicionar Atleta</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/adm/atletas" method="post" id="formAtletas" name="formAtletas">
+                    <div class="modal-body team-input-modal">
+                        <label for="">Nome do Atleta *</label>
+                        <input type="text" name="athleteName" id="playerName">
+                        <br>
+                        <label for="">Data de Nascimento *</label>
+                        <input type="date" name="birthDate" id="birthDate" min="1950-01-01">
+                        <br>
+                        <label for="gender">Gênero</label>
+                        <select name="gender" id="gender">
+                            <option value="masc">M</option>
+                            <option value="fem">F</option>
+                            <option value="nao informado">Não informado</option>
+                        </select>
+                        <br>
+                        <label for="">E-mail *</label>
+                        <input type="email" id="email" name="email">
+                        <br>
+                        <label for="">Telefone *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(11) 11111-1111">
+                        <br>
+                        <label for="">Posição de jogo</label>
+                        <select name="gamePosition" id="gamePosition">
+                            <option value="Levantador(a)">Levantandor(a)</option>
+                            <option value="Ponteiro(a)">Ponteiro(a)</option>
+                            <option value="Oposto(a)">Oposto(a)/Saída de Rede</option>
+                            <option value="Meio de rede">Meio de rede</option>
+                            <option value="Líbero">Líbero</option>
+                        </select><br>
+                        <label for="">Nível do(a) jogador(a)</label>
+                        <select name="playerLevel" id="playerLevel">
+                            <option value="Iniciante">Iniciante</option>
+                            <option value="Intermediário">Intermediário</option>
+                            <option value="Avançado">Avançado</option>
+                            <option value="Profissional">Profissional</option>
+                        </select>
+                        
+                        <!-- <div class="form-check form-switch">
+                            <label class="form-check-label" for="flexSwitchCheckChecked">Ativo</label>
+                            <input class="form-check-input" type="checkbox" role="switch" name="activeStatus" id="flexSwitchCheckChecked" checked>
+                        </div> -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Salvar" id="btnSalvar">
+                    </div>
+                </form>
+              </div>
+            </div>
+        </div>
+        
+        <div class="table-records">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Nome do Atleta</th>
+                        <th>Posição de Jogo</th>
+                        <th>Nível do Atleta</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% players.forEach(function(player) { %>
+                        <tr>
+                            <td><%= player._id %></td>
+                            <td><%= player.playerName %></td>
+                            <td><%= player.gamePosition %></td>
+                            <td><%= player.playerLevel %></td>
+                            <td class="table-item">   
+                                <form action="/adm/atletas/delete" method="post">
+                                    <button class="btn btn-outline-dark" type="submit" name="deletePlayer" id="deletePlayer" value="<%= player._id %>"><i class="fas fa-trash-alt"></i></button>
+                                </form>
+                                <a href="/adm/atletas/playerdesc/<%= player._id %>" class="btn btn-outline-dark"><i class="fas fa-user"></i></a>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>  
+        </div>
+    </div>
+</div>
+<script src="/js/atletas.js"></script>
+<%- include("partials/footer") -%>
