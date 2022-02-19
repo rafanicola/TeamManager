@@ -10,6 +10,8 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const mysql = require("mysql");
 
+const conn = require("./db/connection");
+
 const app = express();
 
 const secret = process.env.SECRET;
