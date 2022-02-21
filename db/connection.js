@@ -1,4 +1,3 @@
-const { connect } = require("mongoose");
 const { Sequelize } = require("sequelize");
 
 const conn = new Sequelize("TeamManager", process.env.DBUSER, process.env.DBPASS, {

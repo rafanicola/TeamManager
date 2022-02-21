@@ -10,7 +10,6 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const mysql = require("mysql");
 var MySQLStore = require('express-mysql-session')(session);
-require('./auth')(passport);
 const User = require("./models/UserModel");
 
 
