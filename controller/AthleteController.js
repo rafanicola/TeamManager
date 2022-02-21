@@ -1,4 +1,4 @@
-const Athlete = require("../models/MasterModel");
+//const Athlete = require("../models/MasterModel");
 const passport = require("passport")
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");

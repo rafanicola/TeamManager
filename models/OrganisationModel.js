@@ -1,4 +1,4 @@
-const { trusted } = require("mongoose");
+
 const {DataTypes, Sequelize} = require("sequelize");
 const conn = require("../db/connection");
 
@@ -18,4 +18,4 @@ const Organisation = conn.define("Organisation", {
     UpdatedAt: 'updateTimestamp',
 });
 
-module.exports = User;
+module.exports = Organisation;

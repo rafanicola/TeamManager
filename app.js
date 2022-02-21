@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+//const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
@@ -9,13 +9,17 @@ const findOrCreate = require("mongoose-findorcreate");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const mysql = require("mysql");
+var MySQLStore = require('express-mysql-session')(session);
+require('./auth')(passport);
+const User = require("./models/UserModel");
+
 
 const conn = require("./db/connection");
 
 const app = express();
 
 const secret = process.env.SECRET;
-const User = require("./models/Users");
+//const User = require("./models/Users");
 
 const teamRoute = require("./routes/TeamRoute");
 const athleteRoute = require("./routes/AthletesRoute");
@@ -37,8 +41,17 @@ app.use(helmet.contentSecurityPolicy({
     }
 }));
 
+
+const sessionStore = new MySQLStore({
+    host: "127.0.0.1",
+    port: 3306,
+    user: process.env.DBUSER,
+    password: process.env.DBPASS,
+    database: "TeamManager",
+})
 app.use(session({
     secret: secret,
+    store: sessionStore,
     resave: false,
     saveUninitialized: false
 }))
@@ -46,7 +59,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb://localhost:27017/teammanager", {useNewUrlParser: true, useUnifiedTopology: true });
 
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
@@ -67,14 +79,3 @@ app.listen(3000, function(err){
         console.log("Server started on port 3000");
     }
 })
-
-
-//MySQL
-const conn = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    database: "TeamManager"
-});
-
-conn.connect();
-console.log(conn);

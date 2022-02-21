@@ -1,6 +1,6 @@
+const bcrypt = require("")
 
-
-class UsersController{
+class UserController{
 
     static getLoginPage(req, res){
         res.render("login");

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Payment = require("../models/Payment");
+//const Payment = require("../models/Payment");
 const findOrCreate = require("mongoose-findorcreate");
 const PaymentController = require("../controller/PaymentController");
 

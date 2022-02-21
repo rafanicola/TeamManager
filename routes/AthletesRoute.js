@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const Athlete = require("../models/MasterModel");
-const Team = require("../models/MasterModel");
-const PlayerTeam = require("../models/MasterModel");
+//const Athlete = require("../models/MasterModel");
+//const Team = require("../models/MasterModel");
+//const PlayerTeam = require("../models/MasterModel");
 const AthleteController = require("../controller/AthleteController")
 
 router.get("/", AthleteController.accessAthleteView);
