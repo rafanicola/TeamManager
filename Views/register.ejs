@@ -8,16 +8,15 @@
  <div class="main">
     <div class="col-md-6 col-sm-12">
        <div class="login-form">
-          <form action="/login" method="post">
+          <form action="/register" method="post">
              <div class="form-group">
-                <label>User Name</label>
-                <input type="email" class="form-control" name="email" placeholder="Email">
+                <input type="text" name="fullname" class="form-control" placeholder="Nome">
+                <input type="email" name="email" class="form-control" placeholder="Email">
              </div>
              <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="password" class="form-control" placeholder="Password">
+                <input type="password" name="password" class="form-control" placeholder="Senha">
              </div>
-             <button type="submit" class="btn btn-black">Login</button>
+             <button type="submit" class="btn btn-secondary">Register</button>
           </form>
        </div>
     </div>

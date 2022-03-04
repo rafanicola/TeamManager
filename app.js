@@ -4,21 +4,15 @@ const bodyParser = require("body-parser");
 //const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
-const passportLocalMongoose = require("passport-local-mongoose");
-const findOrCreate = require("mongoose-findorcreate");
+const LocalStrategy = require("passport-local").Strategy;
 const helmet = require("helmet");
 const morgan = require("morgan");
 const mysql = require("mysql");
 var MySQLStore = require('express-mysql-session')(session);
 const User = require("./models/UserModel");
-
-
-const conn = require("./db/connection");
+const {conn} = require("./db/connection");
 
 const app = express();
-
-const secret = process.env.SECRET;
-//const User = require("./models/Users");
 
 const teamRoute = require("./routes/TeamRoute");
 const athleteRoute = require("./routes/AthletesRoute");
@@ -40,41 +34,70 @@ app.use(helmet.contentSecurityPolicy({
     }
 }));
 
-
-const sessionStore = new MySQLStore({
-    host: "127.0.0.1",
+const connection = mysql.createConnection({
+    host: "localhost",
     port: 3306,
     user: process.env.DBUSER,
     password: process.env.DBPASS,
-    database: "TeamManager",
-})
+    database: process.env.DBASE
+});
+
 app.use(session({
-    secret: secret,
-    store: sessionStore,
+    //key: 'session',
+    secret: process.env.SECRET,
+    //store: store,
     resave: false,
-    saveUninitialized: false
-}))
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60 * 1000 * 30,
+    }
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
+passport.use(new LocalStrategy({
+    usernameField: "email",
+    passwordField: "password",
+    passReqToCallback: false,
+}, async function(email, password, done){
 
-passport.use(User.createStrategy());
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+    let user = await User.findOne({
+        raw: true,
+        where: {
+            email: email,
+        }
+    });
 
-app.use("/adm/equipes", teamRoute);
-app.use("/adm/atletas", athleteRoute);
-app.use("/adm/pagamento", payRoute);
+    if(!user){
+        return done(null, false, { message: "User not found"});
+    }else{
+        return done(null, user);
+    }
+}));
+
+passport.serializeUser(function(user, done) {
+    done(null, {id: user.id, email: user.email, name: user.name});
+});
+  
+passport.deserializeUser(function(user, done) {
+    done(null, {id: user.id, email: user.email, name: user.name});
+});
+
+
+
+app.use("/adm", [teamRoute, athleteRoute, payRoute]);
 app.use("/", [userRoute, admRoute]);
 
 
-
-
-app.listen(3000, function(err){
-    if(err){
-        console.log(err);
-    }else{
-        console.log("Server started on port 3000");
-    }
+conn.sync().then(function(){
+    app.listen(3000, function(err){
+        if(!err){
+            console.log("Server started on port 3000");
+        }else{
+            console.log(err);
+        }
+    })
+}).catch(function(err){
+    console.log(err);
 })

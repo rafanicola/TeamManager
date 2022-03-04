@@ -1,22 +1,19 @@
-const { DataTypes, Sequelize, Model } = require("sequelize");
-const conn = require("../db/connection");
+const { DataTypes } = require("sequelize");
+const {conn} = require("../db/connection");
 
 const User = conn.define("User", {
-    Name: {
+    name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    Email: {
+    email: {
         type: DataTypes.STRING(150),
         allowNull: false,
     },
-    Password: {
+    password: {
         type: DataTypes.STRING(400),
         allowNull: false,
-    }
-},
-{
-    timestamps: true,
+    },
 });
 
 module.exports = User;
