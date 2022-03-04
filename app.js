@@ -9,7 +9,9 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const mysql = require("mysql");
 var MySQLStore = require('express-mysql-session')(session);
+//Models
 const User = require("./models/UserModel");
+const Club = require("./models/ClubModel");
 const {conn} = require("./db/connection");
 
 const app = express();

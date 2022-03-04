@@ -1,7 +1,9 @@
 const { json } = require("body-parser");
 const User = require("../models/UserModel");
+const Club = require("../models/ClubModel");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
+
 
 class UserController{
 
@@ -42,7 +44,7 @@ class UserController{
         res.render("login");
     }
 
-    static loginUser(req, res, next){
+    static async loginUser(req, res, next){
 
         passport.authenticate("local", function(err, user, info){
             if(err){
@@ -57,10 +59,20 @@ class UserController{
             
             if(bcrypt.compareSync(req.body.password, user.password)){
                 req.logIn(user, function(err){
-                    if(err){
-                        return res.json(err);
+                    if(!err){
+                        const club = await Club.findOne({
+                            raw: true,
+                            where: {
+                                id: user.id
+                            }
+                        });
+                        if(club){
+                            res.status(200).redirect("/adm");
+                        }else{
+                            res.render("club");
+                        }
                     }else{
-                        res.status(200).redirect("/adm");
+                        return res.json(err);
                     }
                 });
             }else{
