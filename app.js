@@ -17,11 +17,10 @@ const {conn} = require("./db/connection");
 const app = express();
 
 const teamRoute = require("./routes/TeamRoute");
-const athleteRoute = require("./routes/AthletesRoute");
 const userRoute = require("./routes/UserRoute");
 const admRoute = require("./routes/AdmRoute");
-const payRoute = require("./routes/PaymentRoute");
 const clubRoute = require("./routes/ClubRoute");
+const settingsRoute = require("./routes/SettingsRoute");
 
 //middleware
 app.use(express.json());
@@ -89,7 +88,7 @@ passport.deserializeUser(function(user, done) {
 
 
 
-app.use("/adm", [teamRoute, athleteRoute, payRoute]);
+app.use("/adm", [settingsRoute, teamRoute]);
 app.use("/", [userRoute, admRoute, clubRoute]);
 
 
