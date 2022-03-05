@@ -3,6 +3,8 @@ const User = require("../models/UserModel");
 const Club = require("../models/ClubModel");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
+const { crossOriginResourcePolicy } = require("helmet");
+const findClub = require("../util/findClub");
 
 
 class UserController{
@@ -44,7 +46,7 @@ class UserController{
         res.render("login");
     }
 
-    static async loginUser(req, res, next){
+    static loginUser(req, res, next){
 
         passport.authenticate("local", function(err, user, info){
             if(err){
@@ -60,13 +62,10 @@ class UserController{
             if(bcrypt.compareSync(req.body.password, user.password)){
                 req.logIn(user, function(err){
                     if(!err){
-                        const club = await Club.findOne({
-                            raw: true,
-                            where: {
-                                id: user.id
-                            }
-                        });
-                        if(club){
+                        
+                        let club = findClub(user.id);
+                        
+                        if(club){ 
                             res.status(200).redirect("/adm");
                         }else{
                             res.render("club");

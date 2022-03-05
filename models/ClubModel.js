@@ -11,7 +11,8 @@ const Club = conn.define("Club", {
 });
 
 Club.belongsTo(User, {
-    as: "fkUserId",
+    as: "fkUser",
+    allowNull: false,
 })
 
 module.exports = Club;
