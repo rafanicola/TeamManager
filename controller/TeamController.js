@@ -1,22 +1,18 @@
 const passport = require("passport");
+const Team = require("../models/TeamModel");
 //const Team = require("../models/MasterModel");
 
 class TeamController{
     
-    // static accessTeamView(req, res){
+    static async accessTeamView(req, res){
 
-    //     if(req.isAuthenticated()){
-    //         Team.find(function(err, results){
-    //             if(!err){
-    //                 res.render("equipes", {items: results});
-    //             }else{
-    //                 res.send(err);
-    //             }
-    //         })
-    //     }else{
-    //         res.redirect("/login");
-    //     }
-    // }
+        if(req.isAuthenticated()){
+            const teams = await Team.findAll({raw: true});
+            res.render("equipes", { items: teams})
+        }else{
+            res.redirect("/login");
+        }
+    }
 
     // static addTeam(req, res){
     //     if(req.isAuthenticated()){

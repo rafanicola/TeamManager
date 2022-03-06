@@ -1,10 +1,8 @@
-const { json } = require("body-parser");
 const User = require("../models/UserModel");
 const Club = require("../models/ClubModel");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
-const { crossOriginResourcePolicy } = require("helmet");
-const findClub = require("../util/findClub");
+const { unsubscribe } = require("../routes/TeamRoute");
 
 
 class UserController{
@@ -63,12 +61,19 @@ class UserController{
                 req.logIn(user, function(err){
                     if(!err){
                         
-                        let club = findClub(user.id);
+
+                        let club = Club.findOne({
+                            include: User,
+                            where: {
+                                fkUserId: user.id,
+                            }
+                        })
                         
+                        console.log(club)
                         if(club){ 
                             res.status(200).redirect("/adm");
                         }else{
-                            res.render("club");
+                            res.status(200).render("club");
                         }
                     }else{
                         return res.json(err);
@@ -78,6 +83,11 @@ class UserController{
                 return res.json("wrong password")
             }
         })(req, res, next);
+    }
+
+    static logoutUser(req, res){
+        req.logout();
+        res.redirect("/login");
     }
 }
 module.exports = UserController;

@@ -13,7 +13,7 @@ const User = conn.define("User", {
     password: {
         type: DataTypes.STRING(400),
         allowNull: false,
-    },
+    }
 });
 
 module.exports = User;
