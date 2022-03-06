@@ -58,17 +58,15 @@ class UserController{
             }
             
             if(bcrypt.compareSync(req.body.password, user.password)){
-                req.logIn(user, function(err){
+                req.logIn(user, async function(err){
                     if(!err){
-                        
-
-                        let club = Club.findOne({
-                            include: User,
-                            where: {
-                                fkUserId: user.id,
+                        let club = await Club.findOne({
+                            include: {
+                                model: User,
+                                as: "fkUser"
                             }
-                        })
-                        
+                        });
+
                         console.log(club)
                         if(club){ 
                             res.status(200).redirect("/adm");
