@@ -3,7 +3,7 @@ const router = require("express").Router();
 const TeamController = require("../controller/TeamController");
 
 router.get("/equipes", TeamController.accessTeamView);
-// router.post("/", TeamController.addTeam);
+router.post("/equipes", TeamController.addNewTeam);
 // router.post("/delete", TeamController.deleteTeam);
 
 module.exports = router;

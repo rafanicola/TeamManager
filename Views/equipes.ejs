@@ -47,9 +47,6 @@
                         <label for="">Nome da Equipe *</label>
                         <input type="text" name="teamName" id="teamName">
                         <br>
-                        <label for="">Nome do clube *</label>
-                        <input type="text" name="clubName" id="clubName">
-                        <br>
                         <label for="teamType">Tipo da Equipe</label>
                         <select name="teamType" id="teamType">
                             <option value="misto">Misto</option>
@@ -57,10 +54,7 @@
                             <option value="masc">Masculino</option>
                         </select>
                         <br>
-                        <label for="">Endereço</label>
-                        <input type="text" name="address" id="address">
-                        <br>
-                        <label for="">Data do Treino</label>
+                        <label for="">Dia do treino</label>
                         <select name="trainingWeekDay" id="weekDays">
                             <option value="Domingo">Domingo</option>
                             <option value="Segunda-Feira">Segunda-Feira</option>
@@ -71,12 +65,18 @@
                             <option value="Sábado">Sábado</option>
                         </select><br>
                         <label for="">Horário do Treino</label>
-                        <input type="text" name="trainingTime" id="trainingTime">
+                        <input type="text" name="trainingStartAt" id="trainingTime">
                         <br>
-                        <!-- <div class="form-check form-switch">
+                        <label for="">Nome da quadra</label>
+                        <input type="text" name="courtName">
+                        <label for="">Endereço</label>
+                        <input type="text" name="address" id="address">
+                        <br>
+                        <div class="form-check form-switch">
                             <label class="form-check-label" for="flexSwitchCheckChecked">Ativo</label>
-                            <input class="form-check-input" type="checkbox" role="switch" name="activeStatus" id="flexSwitchCheckChecked" checked>
-                        </div> -->
+                            <input class="form-check-input" type="checkbox" role="switch" name="isActive" id="flexSwitchCheckChecked" checked>
+                        </div>
+                        <input type="number" value="<%= club %>" name="clubId" hidden>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -102,23 +102,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% items.forEach((item) => { %>
+                   <!-- 
                         <tr>
-                            <!-- <td></td> -->
-                            <td><%= item.teamName %></td>
-                            <td><%= item.clubName %></td>
-                            <td><%= item.address %></td>
-                            <td><%= item.trainingWeekDay %></td>
-                            <td><%= item.trainingTime %></td>
-                            <td><%= item.activeStatus %></td>
+                           
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><</td>
+                            <td></td>
+                            <td></td>
                             <td class="table-item">
                                 <form action="/adm/equipes/delete" method="post">
-                                    <button class="btn btn-outline-dark" type="submit" name="deleteItem" id="btnDeleteItem" value="<%- item._id %>"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="btn btn-outline-dark" type="submit" name="deleteItem" id="btnDeleteItem" value=""><i class="fas fa-trash-alt"></i></button>
                                 </form>
                             </td>
                         </tr>    
-                    <% }); %> 
-                </tbody>
+                    
+                </tbody> -->
             </table>  
         </div>
        

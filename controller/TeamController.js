@@ -1,5 +1,7 @@
 const passport = require("passport");
+const Club = require("../models/ClubModel");
 const Team = require("../models/TeamModel");
+const User = require("../models/UserModel");
 //const Team = require("../models/MasterModel");
 
 class TeamController{
@@ -7,44 +9,54 @@ class TeamController{
     static async accessTeamView(req, res){
 
         if(req.isAuthenticated()){
-            const teams = await Team.findAll({raw: true});
-            res.render("equipes", { items: teams})
+            
+            const club = await Club.findOne({
+                include: {
+                    model: User,
+                    as: "fkUser"
+                }
+            })
+
+            res.render("equipes", {club: club.id});
         }else{
             res.redirect("/login");
         }
     }
 
-    // static addTeam(req, res){
-    //     if(req.isAuthenticated()){
-    //         const team = new Team({
-    //             teamName: req.body.teamName,
-    //             clubName: req.body.clubName,
-    //             teamType: req.body.teamType,
-    //             address: req.body.address,
-    //             trainingWeekDay: req.body.trainingWeekDay,
-    //             trainingTime: req.body.trainingTime
-    //         });
-    //         team.save(function(err){
-    //             if(!err){
-    //                 res.status(201).redirect("/adm/equipes");
-    //             }else{
-    //                 res.send(err);
-    //             }
-    //         });
-    //     }else{
-    //         res.redirect("/login");
-    //     }
-    // }
+    static async addNewTeam(req, res){
 
-    // static deleteTeam(req, res){
-    //     Team.findOneAndRemove({id: req.body.deleteItem}, function(err){
-    //         if(err){
-    //             res.send(err);
-    //         }else{
-    //             res.redirect("/adm/equipes");
-    //         }
-    //     })
-    // }
+        if(req.isAuthenticated()){
+
+            const {teamName, teamType, trainingWeekDay, trainingStartAt, courtName, address, isActive, clubId} = req.body;
+            
+            const team = {
+                teamName,
+                teamType,
+                trainingWeekDay,
+                trainingStartAt,
+                courtName,
+                address,
+                isActive,
+                fkClubId: clubId,
+            }
+
+            if(team.isActive == 'on'){
+                team.isActive = true;
+            }else{
+                team.isActive = false;
+            }
+
+            await Team.create(team).then(function(team){
+                res.redirect(200, "/adm/equipes");
+            }).catch(function(err){
+                if(err){
+                    res.send(err)
+                }
+            });
+        }
+
+
+    }
 }
 
 module.exports = TeamController;
