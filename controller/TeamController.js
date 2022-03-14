@@ -15,9 +15,11 @@ class TeamController{
                     model: User,
                     as: "fkUser"
                 }
-            })
+            });
 
-            res.render("equipes", {club: club.id});
+            const team = await Team.findAll({raw: true});
+           
+            res.render("equipes", {club: club.id, teams: team});
         }else{
             res.redirect("/login");
         }
@@ -47,15 +49,70 @@ class TeamController{
             }
 
             await Team.create(team).then(function(team){
-                res.redirect(200, "/adm/equipes");
+                res.status(200).redirect("/adm/equipes");
             }).catch(function(err){
                 if(err){
                     res.send(err)
                 }
             });
         }
+    }
 
+    static async deleteTeam(req, res){
 
+        const {deleteTeam} = req.body;
+
+        if(req.isAuthenticated()){
+            const isDeleted = await Team.destroy({
+                where: {
+                    id: deleteTeam
+                }
+            });
+            
+            if(isDeleted == 1){
+                res.status(200).redirect("/adm/equipes")
+            }else{
+                res.send("Algo de errado aconteceu");
+            }
+        }else{
+            res.redirect("/login");
+        }
+    }
+
+    static async editTeam(req, res){
+        
+        const { teamid, teamNameEdit, teamTypeEdit, trainingWeedDayEdit, trainingStartAtEdit, courtNameEdit, addressEdit, isActiveEdit } = req.body;
+
+        let isActive;
+
+        if(isActiveEdit == 'on'){
+            isActive = 1;
+        }else{
+            isActive = 0;
+        }
+
+        try{
+            const isOk = await Team.update({
+                teamName: teamNameEdit,
+                trainingWeekDay: trainingWeedDayEdit,
+                trainingStartAt: trainingStartAtEdit,
+                courtName: courtNameEdit,
+                courtAddress: addressEdit,
+                isActive: isActive,
+            },{
+                where: {
+                    id: teamid
+                }
+            });
+
+            if(isOk){
+                res.redirect("/adm/equipes")
+            }else{
+                res.send(isOk)
+            }
+        }catch(err){
+            res.send("Erro ao atualizar equipe: " + err);
+        }
     }
 }
 

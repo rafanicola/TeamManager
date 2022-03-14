@@ -44,10 +44,16 @@ const connection = mysql.createConnection({
     database: process.env.DBASE
 });
 
+// var sessionStore = new MySQLStore({
+//     checkExpirationInterval: parseInt(process.env.SESSIONSDB_CHECK_EXP_INTERVAL, 10),
+//     expiration: parseInt(process.env.SESSIONSDB_EXPIRATION, 10)
+//   }, connection);
+
+
 app.use(session({
-    //key: 'session',
+    // key: 'session',
     secret: process.env.SECRET,
-    //store: store,
+    // store: sessionStore,
     resave: false,
     saveUninitialized: false,
     cookie: {

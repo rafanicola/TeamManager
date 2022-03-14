@@ -76,7 +76,6 @@
                             <label class="form-check-label" for="flexSwitchCheckChecked">Ativo</label>
                             <input class="form-check-input" type="checkbox" role="switch" name="isActive" id="flexSwitchCheckChecked" checked>
                         </div>
-                        <input type="number" value="<%= club %>" name="clubId" hidden>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -92,38 +91,109 @@
                 <thead>
                     <tr>
                         <!-- <th>ID</th> -->
-                        <th>Nome da Equipe</th>
+                        <th>ID</th>
                         <th>Nome do Clube</th>
+                        <th>Dia do Treino</th>
+                        <th>Hora Início</th>
+                        <th>Quadra</th>
                         <th>Endereço</th>
-                        <th>Data do Treino</th>
-                        <th>Horário</th>
                         <th>Equipe Ativa?</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                   <!-- 
+                    <% teams.forEach(team => { %>
                         <tr>
-                           
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><</td>
-                            <td></td>
-                            <td></td>
+                            <td><%= team.id %></td>
+                            <td><%= team.teamName %></td>
+                            <td><%= team.trainingWeekDay %></td>
+                            <td><%= team.trainingStartAt %></td>
+                            <td><%= team.courtName %></td>
+                            <td><%= team.courtAddress %></td>
+                            <% if(team.isActive == 1){ %>
+                                <td>Sim</td>
+                            <% } else { %>
+                                <td>Não</td>
+                            <% } %>
                             <td class="table-item">
                                 <form action="/adm/equipes/delete" method="post">
-                                    <button class="btn btn-outline-dark" type="submit" name="deleteItem" id="btnDeleteItem" value=""><i class="fas fa-trash-alt"></i></button>
+                                    <button class="btn btn-outline-dark" type="submit" name="deleteTeam" id="btnDeleteItem" value="<%= team.id  %> "><i class="fas fa-trash-alt"></i></button>
                                 </form>
+                                <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#editarEquipe<%=team.id%>" id="editTeam<%=team.id%>"><i class="fas fa-edit"></i></button>
                             </td>
-                        </tr>    
-                    
-                </tbody> -->
+                        </tr>
+                        
+                        <div class="modal fade" id="editarEquipe<%=team.id%>" name="editarEquipe<%=team.id%>" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalTitle">Editar Equipe</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form action="/adm/equipes/edit" method="post" id="formEquipes" name="formEquipes">
+                                        <div class="modal-body team-input-modal">
+                                            <input type="text" name="teamid" value="<%= team.id %> " hidden>
+
+                                            <label for="">Nome da Equipe *</label>
+                                            <input type="text" name="teamNameEdit" id="teamName" value="<%= team.teamName%>">
+                                            <br>
+                                            <label for="teamType">Tipo da Equipe</label>
+                                            <select name="teamTypeEdit" id="teamType">
+                                                <% if(team.teamType == "Misto") { %>
+                                                    <option value="Misto" checked>Misto</option>
+                                                    <option value="Feminino">Feminino</option>
+                                                    <option value="Masculino">Masculino</option>
+                                                <%}else if(team.teamType == "Feminino") {%>
+                                                    <option value="Misto">Misto</option>
+                                                    <option value="Feminino" checked>Feminino</option>
+                                                    <option value="Masculino">Masculino</option>
+                                                <%} else { %>
+                                                    <option value="Misto">Misto</option>
+                                                    <option value="Feminino">Feminino</option>
+                                                    <option value="Masculino" checked>Masculino</option>
+                                                <%}%>
+                                            </select>
+                                            <br>
+                                            <label for="">Dia do treino</label>
+                                            <select name="trainingWeekDayEdit" id="weekDays" disabled>
+                                                <option value="Domingo">Domingo</option>
+                                                <option value="Segunda-Feira">Segunda-Feira</option>
+                                                <option value="Terça-Feira">Terça-Feira</option>
+                                                <option value="Quarta-Feira">Quarta-Feira</option>
+                                                <option value="Quinta-Feira">Quinta-Feira</option>
+                                                <option value="Sexta-Feira">Sexta-Feira</option>
+                                                <option value="Sábado">Sábado</option>
+                                            </select><br>
+                                            <label for="">Horário do Treino</label>
+                                            <input type="text" name="trainingStartAtEdit" id="trainingTime" value="<%= team.trainingStartAt  %>">
+                                            <br>
+                                            <label for="">Nome da quadra</label>
+                                            <input type="text" name="courtNameEdit" value="<%=team.courtName %>">
+                                            <label for="">Endereço</label>
+                                            <input type="text" name="addressEdit" id="address" value="<%= team.courtAddress %>">
+                                            <br>
+                                            <div class="form-check form-switch">
+                                                <label class="form-check-label" for="flexSwitchCheckChecked">Ativo</label>
+                                                <% if(team.isActive == 1) { %>
+                                                    <input class="form-check-input" type="checkbox" role="switch" name="isActiveEdit" id="flexSwitchCheckChecked" checked>
+                                                <% } else { %>
+                                                    <input class="form-check-input" type="checkbox" role="switch" name="isActiveEdit" id="flexSwitchCheckChecked">
+                                                <% } %> 
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <input type="submit" class="btn btn-primary" value="Salvar" id="btnSalvar">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <% });%>
+                </tbody>
             </table>  
         </div>
-       
     </div>
-     
 </div>
 <script src="/js/equipes.js"></script>
 <%- include("partials/footer") -%>
