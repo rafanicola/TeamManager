@@ -85,33 +85,39 @@ class TeamController{
 
         let isActive;
 
-        if(isActiveEdit == 'on'){
-            isActive = 1;
-        }else{
-            isActive = 0;
-        }
 
-        try{
-            const isOk = await Team.update({
-                teamName: teamNameEdit,
-                trainingWeekDay: trainingWeedDayEdit,
-                trainingStartAt: trainingStartAtEdit,
-                courtName: courtNameEdit,
-                courtAddress: addressEdit,
-                isActive: isActive,
-            },{
-                where: {
-                    id: teamid
-                }
-            });
+        if(req.isAuthenticated()){
 
-            if(isOk){
-                res.redirect("/adm/equipes")
+            if(isActiveEdit == 'on'){
+                isActive = 1;
             }else{
-                res.send(isOk)
+                isActive = 0;
             }
-        }catch(err){
-            res.send("Erro ao atualizar equipe: " + err);
+            
+            try{
+                const isOk = await Team.update({
+                    teamName: teamNameEdit,
+                    trainingWeekDay: trainingWeedDayEdit,
+                    trainingStartAt: trainingStartAtEdit,
+                    courtName: courtNameEdit,
+                    courtAddress: addressEdit,
+                    isActive: isActive,
+                },{
+                    where: {
+                        id: teamid
+                    }
+                });
+                
+                if(isOk){
+                    res.redirect("/adm/equipes")
+                }else{
+                    res.send(isOk)
+                }
+            }catch(err){
+                res.send("Erro ao atualizar equipe: " + err);
+            }
+        }else{
+            res.redirect("/login")
         }
     }
 }
