@@ -20,6 +20,7 @@ const teamRoute = require("./routes/TeamRoute");
 const userRoute = require("./routes/UserRoute");
 const admRoute = require("./routes/AdmRoute");
 const clubRoute = require("./routes/ClubRoute");
+const playerRoute = require("./routes/PlayerRoute");
 const settingsRoute = require("./routes/SettingsRoute");
 
 //middleware
@@ -94,7 +95,7 @@ passport.deserializeUser(function(user, done) {
 
 
 
-app.use("/adm", [settingsRoute, teamRoute]);
+app.use("/adm", [settingsRoute, teamRoute, playerRoute]);
 app.use("/", [userRoute, admRoute, clubRoute]);
 
 
