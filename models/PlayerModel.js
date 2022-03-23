@@ -1,5 +1,7 @@
 const {DataTypes, Sequelize} = require("sequelize");
 const {conn} = require("../db/connection");
+const PlayerAssociation = require("./PlayerAssociationModel");
+const Team = require("./TeamModel");
 
 const Player = conn.define("Players", {
     playerName: {
@@ -18,7 +20,7 @@ const Player = conn.define("Players", {
         allowNull: false,
     },
     phone: {
-        type: DataTypes.STRING(11),
+        type: DataTypes.STRING(16),
         allowNull: false,
     },
     gamePosition: {
@@ -34,4 +36,6 @@ const Player = conn.define("Players", {
     },   
 });
 
-module.exports = Player;
+
+
+module.exports = Player;    

@@ -37,3 +37,17 @@ function emptyFields(event){
         alert("Salvo com sucesso!");
     }
 }
+
+const oReq = new XMLHttpRequest();
+
+$("#editPlayer").click(function () { 
+
+    oReq.addEventListener("load", function(){
+        console.log(this.responseText);
+        
+    })
+    oReq.open("GET", "http://localhost:3000/adm/equipes");
+    oReq.send();
+    
+    console.log(oReq);
+});

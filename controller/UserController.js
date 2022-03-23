@@ -61,9 +61,8 @@ class UserController{
                 req.logIn(user, async function(err){
                     if(!err){
                         let club = await Club.findOne({
-                            include: {
-                                model: User,
-                                as: "fkUser"
+                            where: {
+                                fkUserId: req.user.id,
                             }
                         });
 

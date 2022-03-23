@@ -8,11 +8,11 @@ const Club = conn.define("Club", {
         type: DataTypes.STRING(250),
         allowNull: false
     },
+    fkUserId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    }
 });
 
-Club.belongsTo(User, {
-    as: "fkUser",
-    allowNull: false,
-})
 
 module.exports = Club;

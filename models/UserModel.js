@@ -1,5 +1,6 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes, ForeignKeyConstraintError } = require("sequelize");
 const {conn} = require("../db/connection");
+const Club = require("./ClubModel");
 
 const User = conn.define("User", {
     name: {

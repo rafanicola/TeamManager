@@ -29,8 +29,15 @@ class TeamController{
 
         if(req.isAuthenticated()){
 
-            const {teamName, teamType, trainingWeekDay, trainingStartAt, courtName, address, isActive, clubId} = req.body;
+            const {teamName, teamType, trainingWeekDay, trainingStartAt, courtName, address, isActive} = req.body;
             
+            const clubId = await Club.findOne({
+                raw: true,
+                where: {
+                    fkUserId: req.user.id,
+                }
+            })
+
             const team = {
                 teamName,
                 teamType,
@@ -39,7 +46,7 @@ class TeamController{
                 courtName,
                 address,
                 isActive,
-                fkClubId: clubId,
+                fkClubId: clubId.id,
             }
 
             if(team.isActive == 'on'){
@@ -52,7 +59,7 @@ class TeamController{
                 res.status(200).redirect("/adm/equipes");
             }).catch(function(err){
                 if(err){
-                    res.send(err)
+                    res.send(err);
                 }
             });
         }

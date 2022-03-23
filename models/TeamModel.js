@@ -1,6 +1,8 @@
 const {DataTypes, Sequelize} = require("sequelize");
 const {conn} = require("../db/connection");
 const Club = require("../models/ClubModel");
+const PlayerAssociation = require("./PlayerAssociationModel");
+const Player = require("./PlayerModel");
 
 const Team = conn.define("Teams", {
     teamName: {
@@ -31,8 +33,9 @@ const Team = conn.define("Teams", {
 });
 
 Team.belongsTo(Club, {
-    as: "fkClub"
-})
+    foreignKey: "fkClubId",
+});
+
 
 module.exports = Team;
 
