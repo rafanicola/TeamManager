@@ -1,7 +1,6 @@
 
-const {DataTypes, Sequelize} = require("sequelize");
+const {DataTypes} = require("sequelize");
 const {conn} = require("../db/connection");
-const User = require("./UserModel");
 
 const Club = conn.define("Club", {
     clubName: {
