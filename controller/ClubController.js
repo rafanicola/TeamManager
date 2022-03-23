@@ -2,20 +2,28 @@ const Club = require("../models/ClubModel");
 
 class ClubController{
 
-    static async saveNewClub(req, res){
+    static saveNewClub(req, res){
         
         const {clubname} = req.body;
 
-        const newClub = await Club.create({
+        Club.create({
             clubName: clubname,
             fkUserId: req.user.id,
-        });
-        
-        if(newClub && req.isAuthenticated()){
-            res.redirect("/adm");
-        }else{
-            res.send("erro");
-        }
+        }).then(function(club){
+            if(club){
+                if(req.isAuthenticated()){
+                    res.redirect("/adm")
+                }else{
+                    res.redirect("/login");
+                }
+            }else{
+                res.send("erro");
+            }
+        }).catch(function(err){
+            if(err){
+                res.send(err);
+            }
+        })
     }
 }
 
