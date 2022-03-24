@@ -9,17 +9,27 @@ class TeamController{
     static async accessTeamView(req, res){
 
         if(req.isAuthenticated()){
-            
+
             const club = await Club.findOne({
-                include: {
-                    model: User,
-                    as: "fkUser"
+                raw: true,
+                where: {
+                    fkUserId: req.user.id
                 }
             });
-
-            const team = await Team.findAll({raw: true});
-           
-            res.render("equipes", {club: club.id, teams: team});
+            
+            Team.findAll({
+                raw: true,
+                where: {
+                    fkClubId: club.id,
+                }
+            }).then(function(teams){
+                //console.log(teams)
+                res.render("equipes", { teams: teams});
+            }).catch(function(err){
+                res.send(err);
+            });
+            
+            
         }else{
             res.redirect("/login");
         }
@@ -56,7 +66,11 @@ class TeamController{
             }
 
             await Team.create(team).then(function(team){
-                res.status(200).redirect("/adm/equipes");
+                if(team){
+                    res.status(200).redirect("/adm/equipes");
+                }else{
+                    res.send("Not saved");
+                }
             }).catch(function(err){
                 if(err){
                     res.send(err);
