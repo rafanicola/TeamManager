@@ -1,9 +1,9 @@
-const {DataTypes, Sequelize} = require("sequelize");
+const {DataTypes, Model} = require("sequelize");
 const {conn} = require("../db/connection");
-const PlayerAssociation = require("./PlayerAssociationModel");
-const Team = require("./TeamModel");
 
-const Player = conn.define("Players", {
+class Player extends Model{}
+
+Player.init({
     playerName: {
         type: DataTypes.STRING(150),
         allowNull: false,
@@ -33,9 +33,10 @@ const Player = conn.define("Players", {
     isActive: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-    },   
-});
+    }
+}, {
+    sequelize: conn,
+    modelName: "Player",
+})
 
-
-
-module.exports = Player;    
+module.exports = Player;

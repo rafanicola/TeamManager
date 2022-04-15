@@ -1,6 +1,7 @@
 
 const {DataTypes} = require("sequelize");
 const {conn} = require("../db/connection");
+const Team = require("../models/TeamModel");
 
 const Club = conn.define("Club", {
     clubName: {
@@ -12,6 +13,8 @@ const Club = conn.define("Club", {
         allowNull: false
     }
 });
+
+Club.hasMany(Team, {foreignKey: "fkClubId"});
 
 
 module.exports = Club;

@@ -11,7 +11,6 @@ const mysql = require("mysql");
 var MySQLStore = require('express-mysql-session')(session);
 //Models
 const User = require("./models/UserModel");
-const Club = require("./models/ClubModel");
 const {conn} = require("./db/connection");
 
 const app = express();
@@ -99,7 +98,7 @@ app.use("/adm", [settingsRoute, teamRoute, playerRoute]);
 app.use("/", [userRoute, admRoute, clubRoute]);
 
 
-conn.sync().then(function(){
+conn.sync({force: true}).then(function(){
     app.listen(3000, function(err){
         if(!err){
             console.log("Server started on port 3000");
