@@ -1,4 +1,5 @@
 const Club = require("../models/ClubModel");
+const User = require("../models/UserModel");
 
 class ClubController{
 
@@ -8,7 +9,9 @@ class ClubController{
 
         Club.create({
             clubName: clubname,
-            fkUserId: req.user.id,
+            UserId: [req.user.id]
+        }, {
+            include: [User]
         }).then(function(club){
             if(club){
                 if(req.isAuthenticated()){

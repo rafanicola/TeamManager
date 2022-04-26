@@ -61,16 +61,18 @@ class UserController{
                 req.logIn(user, async function(err){
                     if(!err){
                         let club = await Club.findOne({
-                            where: {
-                                fkUserId: req.user.id,
+                            include: {
+                                model: User,
+                                where: {
+                                    email: req.user.email,
+                                }
                             }
                         });
-
                         console.log(club)
-                        if(club){ 
-                            res.status(200).redirect("/adm");
-                        }else{
+                        if(!club){ 
                             res.status(200).render("club");
+                        }else{
+                            res.status(200).redirect("/adm");
                         }
                     }else{
                         return res.json(err);

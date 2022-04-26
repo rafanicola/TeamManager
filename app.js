@@ -11,6 +11,8 @@ const mysql = require("mysql");
 var MySQLStore = require('express-mysql-session')(session);
 //Models
 const User = require("./models/UserModel");
+const Player = require("./models/PlayerModel");
+const Team = require("./models/TeamModel");
 const {conn} = require("./db/connection");
 
 const app = express();
@@ -21,6 +23,7 @@ const admRoute = require("./routes/AdmRoute");
 const clubRoute = require("./routes/ClubRoute");
 const playerRoute = require("./routes/PlayerRoute");
 const settingsRoute = require("./routes/SettingsRoute");
+const Club = require("./models/ClubModel");
 
 //middleware
 app.use(express.json());
@@ -44,10 +47,19 @@ const connection = mysql.createConnection({
     database: process.env.DBASE
 });
 
-// var sessionStore = new MySQLStore({
-//     checkExpirationInterval: parseInt(process.env.SESSIONSDB_CHECK_EXP_INTERVAL, 10),
-//     expiration: parseInt(process.env.SESSIONSDB_EXPIRATION, 10)
-//   }, connection);
+var sessionStore = new MySQLStore({
+    checkExpirationInterval: parseInt(process.env.SESSIONSDB_CHECK_EXP_INTERVAL, 10),
+    expiration: parseInt(process.env.SESSIONSDB_EXPIRATION, 10)
+  }, connection);
+
+
+//Associations
+User.hasOne(Club);
+Club.belongsTo(User);
+Team.belongsTo(Club);
+Club.hasMany(Team);
+Player.belongsToMany(Team, {through: "TeamPlayerAssociation"});
+Team.belongsToMany(Player, {through: "TeamPlayerAssociation"});
 
 
 app.use(session({
@@ -92,13 +104,12 @@ passport.deserializeUser(function(user, done) {
     done(null, {id: user.id, email: user.email, name: user.name});
 });
 
-
-
+//Routes
 app.use("/adm", [settingsRoute, teamRoute, playerRoute]);
 app.use("/", [userRoute, admRoute, clubRoute]);
 
 
-conn.sync({force: true}).then(function(){
+conn.sync({alter: true}).then(function(){
     app.listen(3000, function(err){
         if(!err){
             console.log("Server started on port 3000");

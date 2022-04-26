@@ -9,8 +9,4 @@ const TeamGender = conn.define("TeamGender", {
     }
 });
 
-TeamGender.belongsTo(Team, {
-    as: "fkTeamGender",
-})
-
 module.exports = TeamGender;

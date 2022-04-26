@@ -2,8 +2,6 @@ const passport = require("passport")
 const bodyParser = require("body-parser");
 const Player = require("../models/PlayerModel");
 const Team = require("../models/TeamModel");
-const PlayerAssociation = require("../models/TeamPlayerAssociationModel");
-
 
 class PlayerController{
 

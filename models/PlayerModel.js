@@ -1,9 +1,7 @@
 const {DataTypes, Model} = require("sequelize");
 const {conn} = require("../db/connection");
 
-class Player extends Model{}
-
-Player.init({
+const Player = conn.define("Player", {
     playerName: {
         type: DataTypes.STRING(150),
         allowNull: false,
@@ -34,9 +32,6 @@ Player.init({
         type: DataTypes.BOOLEAN,
         allowNull: false,
     }
-}, {
-    sequelize: conn,
-    modelName: "Player",
-})
+});
 
 module.exports = Player;
