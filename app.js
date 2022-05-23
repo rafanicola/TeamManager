@@ -59,6 +59,7 @@ User.hasOne(Club);
 Club.belongsTo(User);
 Team.belongsTo(Club);
 Club.hasMany(Team);
+Player.belongsTo(Club);
 Player.belongsToMany(Team, {through: "TeamPlayerAssociation"});
 Team.belongsToMany(Player, {through: "TeamPlayerAssociation"});
 

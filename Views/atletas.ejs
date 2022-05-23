@@ -113,11 +113,11 @@
                             <td><%= player.playerLevel %></td>
                             <td class="table-item">   
                                 <form action="/adm/atletas/delete" method="post">
-                                    <button class="btn btn-outline-dark" type="submit" name="deletePlayer" id="deletePlayer" value="<%= player.id %>"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="btn btn-outline-dark" type="submit" name="deletePlayer" id="deletePlayer" title="Remover Atleta" value="<%= player.id %>"><i class="fas fa-trash-alt"></i></button>
                                 </form>
-                                <a href="/adm/atletas/playerdesc/<%= player.id %>" class="btn btn-outline-dark"><i class="fas fa-user"></i></a>
-                                <button class="btn btn-outline-dark" name="sendEmail"><i class="fas fa-envelope"></i></button>
-                                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#editarAtleta" id="editPlayer" value="<%= player.id %>"><i class="fas fa-edit"></i></button>
+                                <a href="/adm/atletas/playerdesc/<%= player.id %>" title="Detalhes do Atleta" class="btn btn-outline-dark"><i class="fas fa-user"></i></a>
+                                <button class="btn btn-outline-dark" name="sendEmail" title="Enviar Email"><i class="fas fa-envelope"></i></button>
+                                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#editarAtleta" title="Editar Atleta" id="editPlayer" value="<%= player.id %>"><i class="fas fa-edit"></i></button>
                             </td>
                         </tr>
                     <% }); %>

@@ -23,24 +23,24 @@ function emptyFields(event){
 }
 
 
-var editButtonSize = document.getElementsByName("editTeam").length;
+// var editButtonSize = document.getElementsByName("editTeam").length;
 
-for(var i = 0; i < editButtonSize ; i++){
+// for(var i = 0; i < editButtonSize ; i++){
     
-    document.getElementsByName("editTeam")[i].addEventListener('click', function(){
-        console.log(this);
+//     document.getElementsByName("editTeam")[i].addEventListener('click', function(){
+//         console.log(this);
 
-        let xhr = new XMLHttpRequest();
-        xhr.open("GET", 'https://reqres.in/api/users');
+//         let xhr = new XMLHttpRequest();
+//         xhr.open("GET", 'https://reqres.in/api/users');
 
-        xhr.responseType = 'json';
-        xhr.onload = function(){
-            const data = xhr.response;
-            console.log(data)
-        }
-        xhr.send();
-    })
-}
+//         xhr.responseType = 'json';
+//         xhr.onload = function(){
+//             const data = xhr.response;
+//             console.log(data)
+//         }
+//         xhr.send();
+//     })
+// }
 
 
 

@@ -6,5 +6,4 @@ router.post("/equipes", TeamController.addNewTeam);
 router.post("/equipes/delete", TeamController.deleteTeam);
 router.post("/equipes/edit", TeamController.updateTeam);
 
-
 module.exports = router;

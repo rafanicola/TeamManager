@@ -2,13 +2,33 @@ const passport = require("passport")
 const bodyParser = require("body-parser");
 const Player = require("../models/PlayerModel");
 const Team = require("../models/TeamModel");
+const Club = require("../models/ClubModel");
 
 class PlayerController{
 
     static async getPlayerView(req, res){
         if(req.isAuthenticated()){
-            const players = await Player.findAll();
-            res.render("atletas", {players: players});
+
+            Club.findOne({
+                raw: true,
+                where: {
+                    userId: req.user.id,
+                }
+            }).then(function(club){
+                Player.findAll({
+                    raw: true,
+                    where: {
+                        ClubId: club.id,
+                    }
+                }).then(function(players){
+                    res.render("atletas", { players: players});
+                }).catch(function(err){
+                    res.send(err);
+                })
+            }).catch(function(err){
+                res.send(err)
+            });
+
         }else{
             res.redirect("/login");
         }
@@ -20,31 +40,45 @@ class PlayerController{
 
             const {playerName, birthDate, gender, email, phone, gamePosition, playerLevel} = req.body;
             let isActive = req.body;
-            
+
+            console.log("Valor do IsActive: " + isActive);
+
             if(isActive == 'on'){
                 isActive = 1;
             }else{
                 isActive = 0;
             }
             
-            const player = {
-                playerName,
-                birthDate,
-                gender,
-                email,
-                phone,
-                gamePosition,
-                playerLevel,
-                isActive
-            }
-            
-            await Player.create(player).then(function(err){
-                res.status(200).redirect("/adm/atletas");
-            }).catch(function(err){
-                if(err){
-                    res.send(err);
+            console.log("Valor do isActive: " + isActive);
+
+            Club.findOne({
+                raw: true,
+                where: {
+                    userId: req.user.id
                 }
+            }).then(function(club){
+
+                const player = {
+                    playerName,
+                    birthDate,
+                    gender,
+                    email,
+                    phone,
+                    gamePosition,
+                    playerLevel,
+                    isActive,
+                    ClubId: club.id,
+                }
+
+                Player.create(player).then(function(isCreated){
+                    res.status(200).redirect("/adm/atletas");
+                }).catch(function(err){
+                    res.send(err);
+                })
+            }).catch(function(err){
+                res.send(err);
             })
+
         }else{
             res.redirect("/login");
         }
@@ -73,46 +107,16 @@ class PlayerController{
 
     static async getPlayerDescriptionView(req, res){
 
-        const date = new Date();
-        console.log(date);
-        
         if(req.isAuthenticated()){
-            
-            const player = await Player.findOne({
+            Player.findOne({
                 raw: true,
                 where: {
                     id: req.params.id,
                 }
-            });
-
-            
-            if(player){
-
-                const teams = await Team.findAll({
-                    raw: true,
-                });
-
-                const playerAssociations = await PlayerAssociation.findAll({
-                    include: {
-                        model: Team,
-                        
-                        
-                    },
-                    raw: true,
-                    where: {
-                        fkUserId: player.id
-                    }
-                });
-               
-                console.log(playerAssociations);
-                res.status(200).render("atletaDescription", {player: player, teams: teams, associations: playerAssociations})
-            }else{
-                res.send("Error: player not found");
-            }  
-        }else{
-            res.redirect("/login");
+            }).then(function(player){
+                res.render("atletaDescription", { player: player});
+            })
         }
-
     }
 
     static async savePlayerTeamAssociation(req, res){
