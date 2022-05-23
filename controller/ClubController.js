@@ -2,7 +2,7 @@ const Club = require("../models/ClubModel");
 const User = require("../models/UserModel");
 
 class ClubController{
-
+    
     static saveNewClub(req, res){
         
         const {clubname} = req.body;

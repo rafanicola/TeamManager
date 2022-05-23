@@ -36,6 +36,7 @@ app.use(helmet.contentSecurityPolicy({
     useDefaults: true,
     directives: {
         "script-src": ["'self'", "https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js", "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js", "https://code.jquery.com/jquery-3.6.0.min.js", "https://use.fontawesome.com/releases/v5.15.4/css/all.css", 'https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js'],
+        "connect-src": ["https://reqres.in/"]
     }
 }));
 

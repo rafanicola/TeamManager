@@ -119,7 +119,7 @@
                                 <form action="/adm/equipes/delete" method="post">
                                     <button class="btn btn-outline-dark" type="submit" name="deleteTeam" id="btnDeleteItem" value="<%= team.id  %> "><i class="fas fa-trash-alt"></i></button>
                                 </form>
-                                <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#editarEquipe<%=team.id%>" id="editTeam<%=team.id%>"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#editarEquipe<%=team.id%>" name="editTeam" id="editTeam<%=team.id%>"><i class="fas fa-edit"></i></button>
                             </td>
                         </tr>
                         
