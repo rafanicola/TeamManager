@@ -37,7 +37,7 @@
         </div>
 
         <div class="player-actions">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#relacionamentoEquipeAtletaModal">Relacionamento Equipe vs Atleta</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#relacionamentoEquipeAtletaModal" id="playerTeamBtn">Relacionamento Equipe vs Atleta</button>
         </div>
 
         <!-- Modal -->
@@ -50,7 +50,7 @@
                 </div>
                 <form action="/adm/atletas/playerdesc/<%= player._id %>" method="post">
                     <div class="modal-body">
-                        <input type="text" value="<%= player.id %>" name="userId" hidden>
+                        <input type="text" value="<%= player.id %>" name="playerId" hidden>
                         <table>
                             <thead>
                                 <tr>
@@ -59,14 +59,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!--% teams.forEach(function(team) { %>
+                                <% teams.forEach(function(team) { %>
                                     <tr>
-                                        <td>< team.teamName %></td>
+                                        <td><%= team.teamName %></td>
                                         <td class="center">
-                                            <input type="checkbox" name="teamCheckboxes" value="< team.id %>">
+                                            <input type="checkbox" name="teamCheckboxes" value="<%= team.id %>">
                                         </td>
                                     </tr>
-                                < }) %-->
+                                <% }) %>
                                 </tbody>
                             </table>
                         </div>
@@ -88,17 +88,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!--% associations.forEach(function(association){ %>
+                    <% associations.forEach(function(association){ %>
                         <tr>
-                            <td>< association.fkTeamId%></td>
+                            <td><% association.TeamId%></td>
                             <td>
                                 <form action="/adm/atletas/playerdesc/deleteAssociation" method="post">
-                                    <input type="text" name="playerId" value="<player.id %>" hidden>
-                                    <button class="btn btn-outline-dark" type="submit" name="deleteAssociation" id="deleteAssociation" value="< association.id %>"><i class="fas fa-trash-alt"></i></button>
+                                    <input type="text" name="playerId" value="<%= player.id %>" hidden>
+                                    <button class="btn btn-outline-dark" type="submit" name="deleteAssociation" id="deleteAssociation" value="<% association.id %>"><i class="fas fa-trash-alt"></i></button>
                                 </form>
                             </td>
                         </tr>
-                   < }) %--> 
+                   <% }) %> 
                 </tbody>
             </table>
         </div>

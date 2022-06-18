@@ -13,6 +13,7 @@ var MySQLStore = require('express-mysql-session')(session);
 const User = require("./models/UserModel");
 const Player = require("./models/PlayerModel");
 const Team = require("./models/TeamModel");
+const TeamPlayerAssociation = require("./models/TeamPlayerAssociation")
 const {conn} = require("./db/connection");
 
 const app = express();
@@ -60,8 +61,8 @@ Club.belongsTo(User);
 Team.belongsTo(Club);
 Club.hasMany(Team);
 Player.belongsTo(Club);
-Player.belongsToMany(Team, {through: "TeamPlayerAssociation"});
-Team.belongsToMany(Player, {through: "TeamPlayerAssociation"});
+Player.belongsToMany(Team, {through: TeamPlayerAssociation});
+Team.belongsToMany(Player, {through: TeamPlayerAssociation});
 
 
 app.use(session({

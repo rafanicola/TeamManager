@@ -1,13 +1,16 @@
 
 $("#phone").mask("(99) 99999-9999");
 
-document.getElementById("deletePlayer").addEventListener('click', confirmDeletion)
-function confirmDeletion(event){
-    if(confirm("Dejesa excluir o atleta do sistema? Caso confirme, a ação não poderá ser desfeita!")){
-        alert("Registro removido com sucesso!");
-    }else{
-        event.preventDefault();
-    }
+const deletePlayerSize = document.getElementsByName("deletePlayer").length;
+
+for(var i = 0; i < deletePlayerSize; i ++){
+    document.getElementsByName("deletePlayer")[i].addEventListener('click', function(event){
+        if(confirm("Dejesa excluir o atleta do sistema? Caso confirme, a ação não poderá ser desfeita!")){
+            alert("Registro removido com sucesso!");
+        }else{
+            event.preventDefault();
+        }
+    });
 }
 
 document.forms.namedItem("formAtletas").addEventListener("submit", emptyFields);

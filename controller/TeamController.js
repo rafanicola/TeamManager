@@ -51,7 +51,7 @@ class TeamController{
                     trainingWeekDay,
                     trainingStartAt,
                     courtName,
-                    courtAddress: address,
+                    courtAddress:address,
                     isActive,
                     ClubId: club.id,
                 }).then(function(team){

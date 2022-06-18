@@ -22,6 +22,16 @@ function emptyFields(event){
     }
 }
 
+document.getElementById("playerTeamBtn").addEventListener('click', function(){
+    console.log("button clicked");
+});
+
+// function getAllTeams(){
+//     const xhr = new XMLHttpRequest();
+
+//     xhr.open("POST", "http://localHost:3000/adm/equipes/getAllTeams");
+
+// }
 
 // var editButtonSize = document.getElementsByName("editTeam").length;
 
