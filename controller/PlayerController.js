@@ -149,6 +149,9 @@ class PlayerController{
                             raw: true,
                             include: [{
                                 model: Player,
+                                where: {
+                                    id: player.id,
+                                },
                                 required: true,
                             }],
                         });

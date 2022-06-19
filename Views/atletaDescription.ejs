@@ -90,7 +90,7 @@
                 <tbody>
                     <% associations.forEach(function(association){ %>
                         <tr>
-                            <td><% association.TeamId%></td>
+                            <td><%= association.teamName%></td>
                             <td>
                                 <form action="/adm/atletas/playerdesc/deleteAssociation" method="post">
                                     <input type="text" name="playerId" value="<%= player.id %>" hidden>
