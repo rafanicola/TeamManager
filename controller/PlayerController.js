@@ -1,5 +1,6 @@
 const passport = require("passport")
 const bodyParser = require("body-parser");
+const {Op} = require("sequelize")
 const Player = require("../models/PlayerModel");
 const Team = require("../models/TeamModel");
 const Club = require("../models/ClubModel");
@@ -156,7 +157,7 @@ class PlayerController{
                             }],
                         });
 
-                        console.log(association)
+                        console.log(association);
                         res.render("atletaDescription", { player: player, teams: teams, associations: association});
                     }else{
                         res.send("Ops! Você não pode acessar este atleta pois não faz parte do seu clube");
@@ -193,22 +194,23 @@ class PlayerController{
         res.redirect("/adm/atletas/playerdesc/" + playerId);
     }
 
-    static async deletePlayerAssociation(req, res){
-        
+    static deletePlayerAssociation(req, res){
         if(req.isAuthenticated()){
             
             const {deleteAssociation, playerId} = req.body;
 
-            const isDeleted = await PlayerAssociation.destroy({
-                where: {
-                    id: deleteAssociation,
+            TeamPlayerAssociation.destroy({
+                where:{
+                    id: deleteAssociation
                 }
+            }).then(function(){
+
+                res.redirect(`/adm/atletas/playerDesc/${playerId}`);
+            }).catch(function(err){
+                res.log(err);
             });
-
-            if(isDeleted){
-                res.redirect("/adm/atletas/playerdesc/" + playerId);
-            }
-
+        }else{
+            res.redirect("/login");
         }
     }
 
@@ -224,10 +226,7 @@ class PlayerController{
             });
         }else{
             res.redirect("/login");
-            
         }
-
-
     }
 }
 

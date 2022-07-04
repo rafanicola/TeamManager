@@ -27,7 +27,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <h5>Telefone</h5>
-                    <p><%= player.telephone %></p>
+                    <p><%= player.phone %></p>
                 </div>
                 <div class="col-lg-3">
                     <h5>E-Mail</h5>
@@ -89,22 +89,22 @@
                 </thead>
                 <tbody>
                     <% associations.forEach(function(association){ %>
-                        <tr>
-                            <td><%= association.teamName%></td>
-                            <td>
-                                <form action="/adm/atletas/playerdesc/deleteAssociation" method="post">
-                                    <input type="text" name="playerId" value="<%= player.id %>" hidden>
-                                    <button class="btn btn-outline-dark" type="submit" name="deleteAssociation" id="deleteAssociation" value="<% association.id %>"><i class="fas fa-trash-alt"></i></button>
-                                </form>
-                            </td>
-                        </tr>
-                   <% }) %> 
+                        <% if (association.destroyTime == null) { %>
+                            
+                            <tr>
+                                <td><%= association.teamName%></td>
+                                <td>
+                                    <form action="/adm/atletas/playerdesc/deletePlayerAssociation" method="post">
+                                        <input type="text" name="playerId" value="<%= player.id %>" hidden disabled>
+                                        <button class="btn btn-outline-dark" type="submit" name="deleteAssociation" id="deleteAssociation" value="<%= association.id %>"><i class="fas fa-trash-alt"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% }) %> 
                 </tbody>
             </table>
         </div>
-
-
-        
     </div>
 </div>
 

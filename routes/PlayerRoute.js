@@ -6,7 +6,7 @@ router.post("/atletas", PlayerController.addNewPlayer);
 router.post("/atletas/delete", PlayerController.deletePlayer);
 router.get("/atletas/playerdesc/:id", PlayerController.getPlayerDescriptionView);
 router.post("/atletas/playerdesc", PlayerController.savePlayerTeamAssociation);
-router.post("/atletas/playerdesc/deleteAssociation", PlayerController.deletePlayerAssociation)
+router.post("/atletas/playerdesc/deletePlayerAssociation", PlayerController.deletePlayerAssociation)
 
 
 module.exports = router;
