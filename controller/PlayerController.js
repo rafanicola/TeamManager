@@ -124,47 +124,31 @@ class PlayerController{
     }
 
     static async getPlayerDescriptionView(req, res){
+
         if(req.isAuthenticated()){
-            Club.findOne({
-                raw: true,
+            Player.findAll({
+                //raw: true,
                 where: {
-                    userId: req.user.id
+                    id: req.params.id
+                },
+                include: {
+                    model: Team,
+                    nested: true
                 }
-            }).then(function(club){
-                Player.findOne({
+            }).then(function(association){
+                //Busca times da equipe para renderizar no combo de associação.
+                Team.findAll({
                     raw: true,
                     where: {
-                        id: req.params.id,
+                        ClubId: req.user.id
                     }
-                }).then(async function(player){
-                    if(club.id == player.ClubId){
-                        
-                        const teams = await Team.findAll({
-                            raw: true,
-                            where: {
-                                ClubId: req.user.id
-                            }
-                        });
-                        
-                        const association = await Team.findAll({
-                            raw: true,
-                            include: [{
-                                model: Player,
-                                where: {
-                                    id: player.id,
-                                },
-                                required: true,
-                            }],
-                        });
-
-                        console.log(association);
-                        res.render("atletaDescription", { player: player, teams: teams, associations: association});
-                    }else{
-                        res.send("Ops! Você não pode acessar este atleta pois não faz parte do seu clube");
-                    }
+                }).then(function(teams){
+                    //res.send(association);
+                    //console.log(association[0].Teams[0].TeamPlayerAssociation.id)
+                    res.render("atletaDescription", {associations: association, teams: teams})
                 }).catch(function(err){
-                    console.log(err);
-                });
+                    console.log(err)
+                })
             }).catch(function(err){
                 console.log(err);
             });
@@ -204,7 +188,6 @@ class PlayerController{
                     id: deleteAssociation
                 }
             }).then(function(){
-
                 res.redirect(`/adm/atletas/playerDesc/${playerId}`);
             }).catch(function(err){
                 res.log(err);

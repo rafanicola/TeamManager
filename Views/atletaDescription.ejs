@@ -3,35 +3,35 @@
 <div class="container-fluid">
     <div class="container">
         <div class="head">
-            <h1><%= player.playerName %></h1>
+            <h1><%= associations[0].playerName %></h1>
         </div>
         <div class="player-content">
             <div class="row">
                 <div class="col-lg-3">
                     <h5>Idade</h5>
-                    <p><%= player.age %></p>
+                    <p><%= associations[0].age %></p>
                 </div>
                 <div class="col-lg-3">
                     <h5>Gênero</h5>
-                    <p><%= player.gender %></p>
+                    <p><%= associations[0].gender %></p>
                 </div>
                 <div class="col-lg-3">
                     <h5>Posição Principal</h5>
-                    <p><%= player.gamePosition %></p>
+                    <p><%= associations[0].gamePosition %></p>
                 </div>
                 <div class="col-lg-3">
                     <h5>Nível do atleta</h5>
-                    <p><%= player.playerLevel %></p>
+                    <p><%= associations[0].playerLevel %></p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-3">
                     <h5>Telefone</h5>
-                    <p><%= player.phone %></p>
+                    <p><%= associations[0].phone %></p>
                 </div>
                 <div class="col-lg-3">
                     <h5>E-Mail</h5>
-                    <p><%= player.email %></p>
+                    <p><%= associations[0].email %></p>
                 </div>
             </div>
         </div>
@@ -48,9 +48,9 @@
                   <h5 class="modal-title" id="exampleModalLabel">Equipes</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/adm/atletas/playerdesc/<%= player._id %>" method="post">
+                <form action="/adm/atletas/playerdesc/<%= associations._id %>" method="post">
                     <div class="modal-body">
-                        <input type="text" value="<%= player.id %>" name="playerId" hidden>
+                        <input type="text" value="<%= associations.id %>" name="playerId" hidden>
                         <table>
                             <thead>
                                 <tr>
@@ -88,20 +88,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% associations.forEach(function(association){ %>
-                        <% if (association.destroyTime == null) { %>
-                            
+                    <!-- Problema: aqui está buscando pelo id do player, logo está apresentando somente um registro pq só tem um player. -->
+                    <% for(let i = 0; i < associations[0].Teams.length; i ++) { %>
+                        <%if(associations[0].Teams[i].TeamPlayerAssociation.destroyTime == null){ %>
                             <tr>
-                                <td><%= association.teamName%></td>
+                                <td><%= associations[0].Teams[i].teamName%></td>
                                 <td>
                                     <form action="/adm/atletas/playerdesc/deletePlayerAssociation" method="post">
-                                        <input type="text" name="playerId" value="<%= player.id %>" hidden disabled>
-                                        <button class="btn btn-outline-dark" type="submit" name="deleteAssociation" id="deleteAssociation" value="<%= association.id %>"><i class="fas fa-trash-alt"></i></button>
+                                        <input type="text" name="playerId" value="<%= associations[0].id %>" hidden>
+                                        <button class="btn btn-outline-dark" type="submit" name="deleteAssociation" id="deleteAssociation" value="<%= associations[0].Teams[i].TeamPlayerAssociation.id %>"><i class="fas fa-trash-alt"></i></button>
                                     </form>
                                 </td>
                             </tr>
                         <% } %>
-                    <% }) %> 
+                    <% } %>
                 </tbody>
             </table>
         </div>
