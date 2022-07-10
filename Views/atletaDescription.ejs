@@ -48,9 +48,9 @@
                   <h5 class="modal-title" id="exampleModalLabel">Equipes</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/adm/atletas/playerdesc/<%= associations._id %>" method="post">
+                <form action="/adm/atletas/playerdesc" method="post">
                     <div class="modal-body">
-                        <input type="text" value="<%= associations.id %>" name="playerId" hidden>
+                        <input type="text" name="playerId" value="<%= associations[0].id %>"  hidden>
                         <table>
                             <thead>
                                 <tr>
@@ -89,21 +89,23 @@
                 </thead>
                 <tbody>
                     <!-- Problema: aqui está buscando pelo id do player, logo está apresentando somente um registro pq só tem um player. -->
-                    <% for(let i = 0; i < associations[0].Teams.length; i ++) { %>
-                        <%if(associations[0].Teams[i].TeamPlayerAssociation.destroyTime == null){ %>
-                            <tr>
-                                <td><%= associations[0].Teams[i].teamName%></td>
-                                <td>
-                                    <form action="/adm/atletas/playerdesc/deletePlayerAssociation" method="post">
-                                        <input type="text" name="playerId" value="<%= associations[0].id %>" hidden>
-                                        <button class="btn btn-outline-dark" type="submit" name="deleteAssociation" id="deleteAssociation" value="<%= associations[0].Teams[i].TeamPlayerAssociation.id %>"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
-                                </td>
-                            </tr>
-                        <% } %>
-                    <% } %>
+                    <% if(qtdAssociations > 0){ %>
+                        <% var teamAssociations = associations[0].Teams %>
+                        <% teamAssociations.forEach(function(association){ %>
+                            <% if(association.TeamPlayerAssociation.destroyTime == null){ %>
+                                <tr>
+                                    <td><%= association.teamName%></td>
+                                    <td>
+                                        <form action="/adm/atletas/playerdesc/deletePlayerAssociation" method="post">
+                                            <input type="text" name="playerId" value="<%= associations[0].id %>" hidden>
+                                            <button class="btn btn-outline-dark" type="submit" name="deleteAssociation" id="deleteAssociation" value="<%= association.TeamPlayerAssociation.id %>"><i class="fas fa-trash-alt"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% } %> 
+                        <% }) %>
+                    <%} %>
                 </tbody>
-            </table>
         </div>
     </div>
 </div>

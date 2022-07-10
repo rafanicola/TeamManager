@@ -143,9 +143,8 @@ class PlayerController{
                         ClubId: req.user.id
                     }
                 }).then(function(teams){
-                    //res.send(association);
-                    //console.log(association[0].Teams[0].TeamPlayerAssociation.id)
-                    res.render("atletaDescription", {associations: association, teams: teams})
+                    //res.send(association)
+                    res.render("atletaDescription", {associations: association, teams: teams, qtdAssociations: association.length})
                 }).catch(function(err){
                     console.log(err)
                 })
@@ -157,30 +156,45 @@ class PlayerController{
         }
     }
 
-    static savePlayerTeamAssociation(req, res){
+    static async savePlayerTeamAssociation(req, res){
 
         const { teamCheckboxes, playerId } = req.body;
 
         for(var i = 0; i < teamCheckboxes.length; i++){
 
-            let association = {
-                PlayerId: playerId,
-                TeamId: teamCheckboxes[i],
-            }
-
-            TeamPlayerAssociation.create(association).then(function(association){
-                console.log(association);
-            }).catch((err)=> {
-                console.log(err);
+            const exists = await TeamPlayerAssociation.findOne({
+                where: {
+                    PlayerId: playerId,
+                    TeamId: teamCheckboxes[i],
+                },
+                paranoid: false
             });
-            
+
+            if(exists != null){
+                TeamPlayerAssociation.restore({
+                    where: {
+                        PlayerId: playerId,
+                        TeamId: teamCheckboxes[i],
+                    }
+                }).then(function(){
+                    console.log("OK");
+                }).catch(function(err){
+                    console.log(err);
+                });
+            }else{
+                TeamPlayerAssociation.create(association).then(function(){
+                    console.log("OK");
+                }).catch(function(err){
+                    console.log(err);
+                })
+            }
         }
-        res.redirect("/adm/atletas/playerdesc/" + playerId);
+        res.redirect(`/adm/atletas/playerdesc/${playerId}`);
     }
 
     static deletePlayerAssociation(req, res){
         if(req.isAuthenticated()){
-            
+
             const {deleteAssociation, playerId} = req.body;
 
             TeamPlayerAssociation.destroy({
@@ -190,7 +204,7 @@ class PlayerController{
             }).then(function(){
                 res.redirect(`/adm/atletas/playerDesc/${playerId}`);
             }).catch(function(err){
-                res.log(err);
+                res.send(err);
             });
         }else{
             res.redirect("/login");
