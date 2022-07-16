@@ -2,16 +2,14 @@
 
 class PaymentController{
 
-    // static accessPaymentPeriodView(req, res){
+    static getPaymentsView(req, res){
+        if(req.isAuthenticated()){
+            res.render("pagamentos");
+        }else{
+            res.redirect("/login");
+        }
         
-    //     Payment.find({}, function(err, results){
-    //         if(!err){
-    //             res.render("pagamento", {items: results});
-    //         }else{
-    //             res.send(err);
-    //         }
-    //     });
-    // }
+    }
 }
 
 module.exports = PaymentController;

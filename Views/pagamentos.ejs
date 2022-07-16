@@ -9,7 +9,7 @@
 
         <div class="actions">
             <!--Modal Adicionar Atleta button-->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPaymentModal" id="addPayment">Adicionar Pagamento</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPaymentModal" id="addPayment">Adicionar Período de Pagamento</button>
         </div>
 
         <!--Modal Adicionar Equipe-->
@@ -17,7 +17,7 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="modalTitle">Adicionar Pagamento</h5>
+                  <h5 class="modal-title" id="modalTitle">Adicionar Período de Pagamento</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="/adm/pagamento" method="post" id="formAtletas" name="formAtletas">
@@ -39,24 +39,14 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Período Pagamento</th>
+                        <th>Período</th>
+                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <% items.forEach((item) => { %>
-                        <tr>
-                            <td><%= item._id %></td>
-                            <td><%= item.periodo %></td>
-                            <td class="table-item">
-                                <form action="/adm/pagamento/periodoPagamento/<%= item._id %>" method="post">
-                                    <button type="submit" name="deletePeriod" id="btnDeletePeriod" class="btn btn-outline-dark"><i class="fas fa-trash-alt"></i></button>
-                                </form>
-                                <button class="btn btn-outline-dark"><i class="fas fa-dollar-sign"></i></button>
-                            </td>
-                        </tr>
-                    <% }) %>
+                    
+                        
                 </tbody>
             </table>  
         </div>

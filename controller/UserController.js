@@ -68,7 +68,7 @@ class UserController{
                                 }
                             }
                         });
-                        console.log(club)
+                        //console.log(club)
                         if(!club){ 
                             res.status(200).render("club");
                         }else{

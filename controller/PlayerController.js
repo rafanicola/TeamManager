@@ -225,6 +225,19 @@ class PlayerController{
             res.redirect("/login");
         }
     }
+
+    static getPlayerInfo(req, res){
+
+        if(req.isAuthenticated()){
+            
+            
+
+
+        }else{
+            res.redirect("/login");
+        }
+
+    }
 }
 
 module.exports = PlayerController;

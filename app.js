@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
-//const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
@@ -14,16 +13,16 @@ const User = require("./models/UserModel");
 const Player = require("./models/PlayerModel");
 const Team = require("./models/TeamModel");
 const TeamPlayerAssociation = require("./models/TeamPlayerAssociation")
+const Price = require("./models/PriceModel")
 const {conn} = require("./db/connection");
-
 const app = express();
-
 const teamRoute = require("./routes/TeamRoute");
 const userRoute = require("./routes/UserRoute");
 const admRoute = require("./routes/AdmRoute");
 const clubRoute = require("./routes/ClubRoute");
 const playerRoute = require("./routes/PlayerRoute");
 const settingsRoute = require("./routes/SettingsRoute");
+const paymentRoute = require("./routes/PaymentRoute");
 const Club = require("./models/ClubModel");
 
 //middleware
@@ -63,6 +62,7 @@ Club.hasMany(Team);
 Player.belongsTo(Club);
 Player.belongsToMany(Team, {through: TeamPlayerAssociation});
 Team.belongsToMany(Player, {through: TeamPlayerAssociation});
+Price.belongsTo(Club);
 
 
 app.use(session({
@@ -108,7 +108,7 @@ passport.deserializeUser(function(user, done) {
 });
 
 //Routes
-app.use("/adm", [settingsRoute, teamRoute, playerRoute]);
+app.use("/adm", [settingsRoute, teamRoute, playerRoute, paymentRoute]);
 app.use("/", [userRoute, admRoute, clubRoute]);
 
 
